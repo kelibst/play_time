@@ -11,6 +11,12 @@ winning_Steps = [
 [7,5,3] # right_diagonal 
 ]
 
+player1_history = []
+player2_history = []
+
+player1_won = false
+player2_won = false
+
 
 
 dashboard_arr = %w[1 2 3 4 5 6 7 8 9]
@@ -61,25 +67,11 @@ dashboard_arr.each_index do |x|
   player = 1 if x.to_i.even?
   player = 2 if x.to_i.odd?
 
-  def win?(arr)
-    if arr.length >= 2
-      winning_Steps.include?(arr.sort!)
-    end
-  end
 
   user = player_hash[1] if player == 1
   user = player_hash[2] if player == 2
   
-  arr1 = []
-  arr2 = []
-
-
-  user1_won = nil
-  user2_won = nil
   loop do
-  
-
-  
 
   puts "#{user}, \n Make a move with number from 1 to 9"
   input = gets.chomp
@@ -95,32 +87,50 @@ dashboard_arr.each_index do |x|
 
   if player == 1 && nums.include?(input)
     unless  dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
-      arr1<<dashboard_arr[input.to_i - 1]
-      puts arr1
+      player1_history.push(input.to_i)
+     
+
+      p player1_history.sort!
+       
+       puts winning_Steps.include?(player1_history.sort!)
+      
       dashboard_arr[input.to_i - 1] = 'X'
-      user1_won = true if win?(arr1)
       break
      end
      puts "#{user}, #{input} is taken try again!"
     elsif player == 2 && nums.include?(input)
       unless dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
-        arr2<<dashboard_arr[input.to_i - 1]
-        puts arr2
+        player2_history.push(input.to_i)
+       
+
+        p player2_history.sort!
+        
+        if player2_history.length >= 2
+         player2_won = true if winning_Steps.include?(player2_history.sort!)
+        end
+        puts winning_Steps.include?(player2_history.sort!)
+
         dashboard_arr[input.to_i - 1] = 'O'
-        user2_won = true if win?(arr2)
+         
         break
        end
        puts "#{user}, #{input} is taken try again!"
   end
   end
-  if user1_won
-    puts "Wow #{user} won!!!"
-    
-    elsif user2_won
-      puts "Wow #{user} won!!!"
+ 
+  dashboard(dashboard_arr)
+  if winning_Steps.include?(player1_history.sort!)
+    puts "Wow! #{user} won!"
+    break
+
+    elsif winning_Steps.include?(player2_history.sort!)
+      puts "Wow! #{user} 2 won!"
+      break
+
+      elsif x == 8
+        puts "Looks like we have a tie!! \n Wonna Try again?"
 
   end
-  dashboard(dashboard_arr)
 end
 end
 
