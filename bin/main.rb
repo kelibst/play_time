@@ -8,117 +8,98 @@ winning_Steps = [
 [2,5,8], # center_column 
 [3,6,9], # right_column 
 [1,5,9], # left_diagonal 
-[3,5,7], # right_diagonal 
-[1,5,6,8]
+[3,5,7] # right_diagonal 
 ].freeze
 
-game_over = false
-
-player1_history = []
-player2_history = []
-
-player1_won = false
-player2_won = false
 
 
-nums = "1".."9"
+def start_game(play = '')
+  res = false
+  until play.downcase == 'n' || play.downcase == 'y'
+    puts "Start Game \n Enter Y/N"
+    play = gets.chomp
+  end
+  res = true if play.downcase == 'y'
+  res
+end
 
-dashboard_arr = %w[1 2 3 4 5 6 7 8 9]
-#creating hashes to store player names and key
-player_hash = Hash.new
-counter=0
+ start_game
 
-
-loop do 
-  puts "Ready? \n Enter n to exit the game!"
-  
-  play = gets.chomp
-  
-  puts 'Exiting game!!!' if play.downcase == 'n'
-  break if play.downcase == 'n'
-  
-  
-  def get_player_name(player_hash)
+def get_player_name(player_hash = Hash.new)
   player1_name= ""
   player2_name= ""
   until !player1_name.empty?
     puts "Player 1 Enter your name"
     player1_name = gets.chomp
   end
-  player_hash[1] = player1_name
+  player_hash["X"] = player1_name
+  puts "#{player_hash["X"]} your marker is X"
   
   until !player2_name.empty?
     puts "Player 2 Enter your name"
     player2_name = gets.chomp
   end
-  player_hash[2] = player2_name
-  
+  player_hash["O"] = player2_name
+  puts "#{player_hash["O"]} your marker is O"
   player_hash
   end
+
+  player_hash =get_player_name
+
+
+puts player_hash["X"]
+
+
+
+dashboard_arr = %w[1 2 3 4 5 6 7 8 9]
+def make_move(player, input = '')
   
-  puts get_player_name(player_hash)
+  nums = "1".."9"
+  until nums.include?(input)
+  puts "#{player} turn"
+  input = gets.chomp
+  end
+  input
+ end
+
+ def check_move(input, player, dashboard_arr, good_move = true)
   
-  dashboard_arr.each_index do |x|
-    player = 1 if x.to_i.even?
-    player = 2 if x.to_i.odd?
-  
-  
-    user = player_hash[1] if player == 1
-    user = player_hash[2] if player == 2
-    
-    loop do
-  
-    puts "#{user}, \n Make a move with number from 1 to 9"
-    input = gets.chomp
-   
-    puts 'Your move is not valid!' unless nums.include?(input)
-  
-    until nums.include?(input)
-      puts "#{user},\n Make a move with number from 1 to 9"
-      input = gets.chomp
+     if  dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
+      good_move = false
+     end
      
-      puts 'Your move is not valid!' unless nums.include?(input)
-    end
-  
-    if player == 1 && nums.include?(input)
-      unless  dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
-        player1_history.push(input.to_i)
-      
-        
-        dashboard_arr[input.to_i - 1] = 'X'
-  
-        if check_win(winning_Steps, player1_history)
-          puts "Wow!! #{user} won"
-          game_over = true
-          break
-        end
-        break
-       end
-       puts "#{user}, #{input} is taken try again!"
-      elsif player == 2 && nums.include?(input)
-        unless dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
-          player2_history.push(input.to_i)
-  
-          dashboard_arr[input.to_i - 1] = 'O'
-          if check_win(winning_Steps, player2_history)
-            puts "Wow!! #{user} won"
-            game_over = true
-          end
+    good_move 
+ end
+
+unless player_hash.empty?
+        player = ''
+        dashboard_arr.each_index do |x|
+          can_move = true
+           player = player_hash["X"] if x.even?
+           player = player_hash["O"] if x.odd?
+          
+           input = make_move(player)
+           if dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
+            can_move = false
+           else 
+            can_move = true
+           end
            
-          break
-         end
-         puts "#{user}, #{input} is taken try again!"
-    end
-    end
+           until can_move == true
+            puts "That spot is taken. \n Try Again..."
+            input = make_move(player)
+            if dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
+            can_move = false
+           else 
+            can_move = true
+           end
+           end
+          
+          
+          
    
-    dashboard(dashboard_arr)
-   if game_over
-    puts "Thanks for Playing!"
-    break 
-   end
-  end
-  break
-  end
-  
-  
-  
+          dashboard_arr[input.to_i - 1] = player_hash.key(player) if can_move 
+
+          puts dashboard(dashboard_arr)
+        end  
+end

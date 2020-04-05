@@ -1,5 +1,3 @@
-
-
 def check_win(steps, player_history, won = false )
   player_history.sort!
  if player_history.length >= 2
