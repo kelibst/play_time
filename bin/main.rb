@@ -86,19 +86,7 @@ def valid_move?(player, dashboard_arr, player_hash, input = '',player1_history, 
   if dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
     good_move = false
   end
-  if good_move
-    player_history = player1_history if player == player_hash["X"]
-    player_history = player2_history if player == player_hash["O"]
-    player_history.push(input)
-    
-    dashboard_arr[input.to_i - 1] = player_hash.key(player)
-    if check_win(player, player_history)
-      game_over(player)
-    end
-  else
-    puts "#{player}, your move is not valid. Spot taken!"
-    valid_move?(player, dashboard_arr,player_hash, player1_history, player2_history)
-  end
+  [good_move,input]
   
 end
 
@@ -113,8 +101,36 @@ unless player_hash.empty?
            player = player_hash["X"] if x.even?
            player = player_hash["O"] if x.odd?
           
-          valid_move?(player, dashboard_arr, player_hash, player1_history, player2_history)
-         
+          ans = valid_move?(player, dashboard_arr, player_hash, player1_history, player2_history)
+          if ans[0]
+            player_history = player1_history if player == player_hash["X"]
+              player_history = player2_history if player == player_hash["O"]
+              input = ans[1]
+              player_history.push(input)
+              
+              dashboard_arr[input.to_i - 1] = player_hash.key(player)
+              
+            else
+              puts "#{player}, your move is not valid. Spot taken!"
+              valid_move?(player, dashboard_arr,player_hash, player1_history, player2_history)
+          end
+          if check_win(player, player_history)
+            game_over(player)
+            break
+          end
           puts dashboard(dashboard_arr)
         end  
 end
+# if good_move
+#   player_history = player1_history if player == player_hash["X"]
+#   player_history = player2_history if player == player_hash["O"]
+#   player_history.push(input)
+  
+#   dashboard_arr[input.to_i - 1] = player_hash.key(player)
+#   if check_win(player, player_history)
+#     game_over(player)
+#   end
+# else
+#   puts "#{player}, your move is not valid. Spot taken!"
+#   valid_move?(player, dashboard_arr,player_hash, player1_history, player2_history)
+# end
