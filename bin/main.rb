@@ -61,11 +61,13 @@ def check_win(player, player_history)
 [3,5,7] # right_diagonal 
 ].freeze
   player_history.sort!
-  history_count = 0
+  
   win = false
   if player_history.length >=3
   winning_Steps.each do |x|
+    history_count = 0
     player_history.each do |y|
+     
      history_count+=1 if x.include?(y.to_i)
       win = true if history_count ==3
     end
@@ -119,12 +121,12 @@ unless player_hash.empty?
               player_history.push(input)
               dashboard_arr[input.to_i - 1] = player_hash.key(player)
           end
-          unless player_history.nil?
+          
           if check_win(player, player_history)
             game_over(player)
             puts dashboard(dashboard_arr)
             break
-          end
+          
         end
           puts dashboard(dashboard_arr)
         end  
