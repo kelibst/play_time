@@ -11,7 +11,8 @@ winning_Steps = [
 [3,5,7] # right_diagonal 
 ].freeze
 
-
+player1_history = []
+player2_history = []
 
 def start_game(play = '')
   res = false
@@ -42,12 +43,10 @@ def get_player_name(player_hash = Hash.new)
   player_hash["O"] = player2_name
   puts "#{player_hash["O"]} your marker is O"
   player_hash
-  end
+end
 
   player_hash =get_player_name
 
-
-puts player_hash["X"]
 
 
 
@@ -60,16 +59,24 @@ def make_move(player, input = '')
   input = gets.chomp
   end
   input
- end
+end
 
- def check_move(input, player, dashboard_arr, good_move = true)
+def valid_move?(player, dashboard_arr, player_hash, input = '')
+  input = make_move(player)
+  good_move = true
+  if dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
+    good_move = false
+  end
+  if good_move
+    dashboard_arr[input.to_i - 1] = player_hash.key(player)
+  else
+    puts "#{player}, your move is not valid. Spot taken!"
+    valid_move?(player, dashboard_arr,player_hash)
+  end
   
-     if  dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
-      good_move = false
-     end
-     
-    good_move 
- end
+end
+
+
 
 unless player_hash.empty?
         player = ''
@@ -78,28 +85,48 @@ unless player_hash.empty?
            player = player_hash["X"] if x.even?
            player = player_hash["O"] if x.odd?
           
-           input = make_move(player)
-           if dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
-            can_move = false
-           else 
-            can_move = true
-           end
-           
-           until can_move == true
-            puts "That spot is taken. \n Try Again..."
-            input = make_move(player)
-            if dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
-            can_move = false
-           else 
-            can_move = true
-           end
-           end
-          
-          
-          
-   
-          dashboard_arr[input.to_i - 1] = player_hash.key(player) if can_move 
-
+          valid_move?(player, dashboard_arr, player_hash)
           puts dashboard(dashboard_arr)
         end  
 end
+
+ #  if dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
+          #   can_move = false
+          #  else 
+          #   can_move = true
+          #  end
+           
+          #  until can_move == true
+          #   puts "That spot is taken. \n Try Again..."
+          #   input = make_move(player)
+          #   if dashboard_arr[input.to_i - 1] == "X" || dashboard_arr[input.to_i - 1] =="O"
+          #   can_move = false
+          #  else 
+          #   can_move = true
+          #  end
+          #  end
+          
+          
+          
+          #  counter =0
+        #    if can_move 
+        #       dashboard_arr[input.to_i - 1] = player_hash.key(player)
+        #      winning_Steps.each {|x|
+        #      player_history = player1_history if player == player_hash["X"]
+        #      player_history = player2_history if player == player_hash["O"]
+        #      player_history.push(input.to_i)
+        #       x.each{|y| counter+=1 if player_history.include?(y)
+           
+        #     next unless counter ==3}
+        #     }
+        #       player1_history.push(input.to_i) if player == player_hash["X"] 
+        #      player2_history.push(input.to_i) if player == player_hash["O"] 
+
+          
+        #   end
+
+        #  def check_move( player, dashboard_arr, good_move = true)
+  
+#  end
+#  input
+#  end
