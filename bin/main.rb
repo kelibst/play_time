@@ -126,7 +126,8 @@ unless player_hash.empty?
             game_over(player)
             puts dashboard(dashboard_arr)
             break
-          
+          elsif x== 8
+            puts "Wow! it's a draw."
         end
           puts dashboard(dashboard_arr)
         end  
