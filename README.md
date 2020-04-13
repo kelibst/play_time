@@ -11,14 +11,7 @@ Tic-tac-toe (American English), noughts and crosses (British English), or Xs and
 - run bin/main.rb
 
 
-## Authors
-
-👤 **Mbabali Iryn**
-
-- Github: [@mbabaliiryn](https://github.com/mbabaliiryn)
-- Twitter: [@IrynMbabali](https://twitter.com/IrynMbabali)
-- Linkedin: [Mbabali iryn](https://www.linkedin.com/feed/)
-
+## Author
 👤 **Kelly Booster**
 
 - Github: [@kelibst](https://github.com/kelibst)

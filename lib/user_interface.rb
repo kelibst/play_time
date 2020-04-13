@@ -1,4 +1,3 @@
-# require_relative '../bin/main.rb'
 class Game_mode
   
   def initialize(player_hash)
@@ -13,9 +12,6 @@ class Game_mode
     puts '-----------'
     puts " #{board[6]} | #{board[7]} | #{board[8]} "
   end
-
-  
-  
   
   def make_move(player, input = '')
     
